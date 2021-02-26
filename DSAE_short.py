@@ -19,14 +19,25 @@ from math import sqrt
 
 
 def Settings_bug_check():
-    if(os.path.exists("./config/Settings.ini")):
-        config = configparser.ConfigParser() 
-        config.read("config/Settings.ini")
+    app_dir = os.path.abspath(os.path.expanduser(os.path.expandvars("./config")))
+    cfg = os.path.join(app_dir, "Settings.ini")    
+    if(os.path.exists(cfg)):
+        config = configparser.ConfigParser()
+        config.read(cfg)
         if not config.has_section("Settings"):
             logger.error("Settings.ini crushed inside") 
             return Exception
         else:
             logger.info("All ok with Settings.ini")
+            path1=(config["Settings"]["directory_of_results_modeling"]).replace(os.sep, '/')
+            pathdb=(config["Settings"]["directory_for_saving_db"]+"/").replace(os.sep, '/')
+            config.set("Settings", "directory_of_results_modeling",  os.path.abspath(os.path.expanduser(os.path.expandvars(path1))).replace(os.sep, '/'))
+            config.set("Settings", "directory_for_saving_db",  os.path.abspath(os.path.expanduser(os.path.expandvars(pathdb))).replace(os.sep, '/'))
+            with open(cfg, "w") as configfile1:
+                config.write(configfile1)
+            print("\n   [Settings successfully changed]")
+            print("   if smth went wrong you can check './config/Settings.ini'\n") 
+            logger.info("Settings successfully changed")
             return 0
     else:
         print("Settings.ini doesn`t exist. Please to recover it.")
@@ -269,8 +280,7 @@ def conf_copy():
 def makedb(path,pathdb,namedb,c): #
     #print("DO SMTH MK")
     #Creating file .db
-    logger.debug("Make_db booted")
-    print(pathdb+namedb)
+    logger.debug("Make_db booted")    
     if not os.path.exists(pathdb+namedb):
         try:
             CreateBase(pathdb+namedb)
@@ -443,12 +453,14 @@ if __name__ == "__main__":
    
 ''')
     try:
+        app_dir = os.path.abspath(os.path.expanduser(os.path.expandvars("./config")))
+        cfg = os.path.join(app_dir, "Settings.ini")    
+        config = configparser.ConfigParser()
+        config.read(cfg)
         if Settings_bug_check()!=0:
             raise Exception
-    
+        conf_copy()
         #User Check settings
-        config = configparser.ConfigParser()
-        config.read("config/Settings.ini")
         path=(config["Settings"]["directory_of_results_modeling"]).replace(os.sep, '/')
         pathdb=(config["Settings"]["directory_for_saving_db"]+"/").replace(os.sep, '/')
         namedb=config["Settings"]["name_of_db"]
@@ -458,7 +470,6 @@ if __name__ == "__main__":
         
         print("   [DB comilation in DEFAULT mode]\n")
         logger.info("DB comilation in DEFAULT mode")
-        #conf_copy()
         
         #Copy .db
         try:
