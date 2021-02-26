@@ -447,7 +447,7 @@ if __name__ == "__main__":
     
         #User Check settings
         config = configparser.ConfigParser()
-        config.read("config/settings.ini")
+        config.read("config/Settings.ini")
         path=(config["Settings"]["directory_of_results_modeling"]).replace(os.sep, '/')
         pathdb=(config["Settings"]["directory_for_saving_db"]+"/").replace(os.sep, '/')
         namedb=config["Settings"]["name_of_db"]
