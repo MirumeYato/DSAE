@@ -270,6 +270,7 @@ def makedb(path,pathdb,namedb,c): #
     #print("DO SMTH MK")
     #Creating file .db
     logger.debug("Make_db booted")
+    print(pathdb+namedb)
     if not os.path.exists(pathdb+namedb):
         try:
             CreateBase(pathdb+namedb)
