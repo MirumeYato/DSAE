@@ -443,7 +443,7 @@ if __name__ == "__main__":
 ''')
     try:
         if Settings_bug_check()!=0:
-            raise Exeption
+            raise Exception
     
         #User Check settings
         config = configparser.ConfigParser()
