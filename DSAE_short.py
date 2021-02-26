@@ -21,7 +21,7 @@ from math import sqrt
 def Settings_bug_check():
     if(os.path.exists("./config/Settings.ini")):
         config = configparser.ConfigParser() 
-        config.read("config/settings.ini")
+        config.read("config/Settings.ini")
         if not config.has_section("Settings"):
             logger.error("Settings.ini crushed inside") 
             return Exception
