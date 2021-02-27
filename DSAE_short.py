@@ -101,6 +101,7 @@ def csv_writer(path,file,Z_end,Z_step,flag):
                 None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
                 None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None]]
             var_list=var_list_older
+        logger.info("Start creation .csv")
         for line in header:    
             writer.writerow(line) 
             
@@ -176,11 +177,13 @@ def csv_writer(path,file,Z_end,Z_step,flag):
                 
                 writer.writerow(dif_list)
             Z=Z+Z_step #cycle step
+    logger.info("Start creation .csv (Only important items)")
     #Only important items table file creating
     with open(path.split(".csv")[0]+"_res.csv", "w", newline='') as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
         for line in Only_res_file:    
             writer.writerow(line)        
+    logger.info("Start creation .csv (Only summary items)")
     #Only summary items table file creating
     file_sum=open(path.split(".csv")[0]+"_sum_res.txt", 'w+')
     for line in Only_res_file:
@@ -560,6 +563,7 @@ if __name__ == "__main__":
         flag1=1
         #column
         #time_like
+        logger.info("Config works properly")
         csv_writer(path+prog_name,pathdb+namedb,Z_end,Z_step,flag1)
         
         
