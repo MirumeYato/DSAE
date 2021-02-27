@@ -49,8 +49,8 @@ def csv_writer(path,file,Z_end,Z_step,flag):
 
     #file="databases/DEFAULT.db" #db name
     time_like=""
-    var_list=[None,None,None,"pT",None,"S(pixel dE/dx)",None,"TRT fHT",None,"N IBL overflown clusters",None,"S(TRT dE/dx)",None,"S(MDT dE/dx)",None,None,"beta variation",None,"t variation",
-        None,None,"Statistical variation",None,"Systematical variation",None,None,None,"Local","Global",None,None,"MUON_ID",None,"MUON_MS",None,"MUON_SCALE",None,"MUON_EFF_RECO_STAT",
+    var_list=[None,None,None,"pT",None,"S(pixel dE/dx)",None,"TRT fHT",None,"N overflowing IBL clusters",None,"S(TRT dE/dx)",None,"S(MDT dE/dx)",None,None,"beta variation",None,"t variation",
+        None,None,"Statistical variation",None,"Systematical variation",None,None,None,"single-muon trigger","MET trigger","late-muon trigger",None,None,None,"MUON_ID",None,"MUON_MS",None,"MUON_SCALE",None,"MUON_EFF_RECO_STAT",
         None,"MUON_EFF_RECO_STAT_LOWPT",None,"MUON_SAGITTA_RESBIAS",None,"MUON_EFF_RECO_SYS",None,"MUON_EFF_RECO_SYS_LOWPT",None,"MUON_SAGITTA_RHO",None,"TRK_BIAS_D0_WM","TRK_BIAS_QOVERP_SAGITTA_WM",
         "TRK_BIAS_Z0_WM","TRK_EFF_LOOSE_GLOBAL","TRK_EFF_LOOSE_IBL","TRK_EFF_LOOSE_PHYSMODEL","TRK_EFF_LOOSE_PP0","TRK_FAKE_RATE_LOOSE","TRK_FAKE_RATE_LOOSE_ROBUST","TRK_RES_D0_DEAD","TRK_RES_D0_MEAS",
         "TRK_RES_Z0_MEAS","TRK_RES_Z0_DEAD",None,"up","down",None,None,None,None,None,None]
@@ -60,7 +60,7 @@ def csv_writer(path,file,Z_end,Z_step,flag):
         "TRK_BIAS_Z0_WM","TRK_EFF_LOOSE_GLOBAL","TRK_EFF_LOOSE_IBL","TRK_EFF_LOOSE_PHYSMODEL","TRK_EFF_LOOSE_PP0","TRK_FAKE_RATE_LOOSE","TRK_RES_D0_DEAD","TRK_RES_D0_MEAS","TRK_RES_Z0_MEAS",
         "TRK_RES_Z0_DEAD",None,"up","down",None,None,None,None,None,None]
     up_list=[None,None,None,"up","down","up","down","up","down","up","down","up","down","up","down",None,"up","down",
-        "up","down",None,"up","down","up","down",None,None,None,None,None,None,"up","down","up","down","up","down","up","down","up","down","up","down","up","down","up","down",
+        "up","down",None,"up","down","up","down",None,None,None,None,None,None,None,None,"up","down","up","down","up","down","up","down","up","down","up","down","up","down","up","down",
         "up","down",None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None]
     
     Only_res_file=[["Charge z","Mass [GeV]",None,"Result on the data/MC agreement uncertainty","Result on the RPC scaling uncertainty",
@@ -85,7 +85,7 @@ def csv_writer(path,file,Z_end,Z_step,flag):
             up_list.insert(60, None)
             header=[["Charge z","Mass [GeV]",None,"Limited agreement of key variables between data and MC",None,None,None,None,None,None,None,None,None,None,None,"Result on the data/MC agreement uncertainty",
                 "RPC trigger efficiency scaling uncertainty",None,None,None,"Result on the RPC scaling uncertainty","Basic muon trigger efficiency uncertainty",None,None,None,
-                "Result on the basic muon trigger efficiency uncertainty","Limited MC statistics","MET trigger uncertainties",None,"Fraction of events in D triggered only by the MET trigger",
+                "Result on the basic muon trigger efficiency uncertainty","Limited MC statistics","Inclusive trigger-selection efficiencies [%]",None,None,"MET trigger uncertainties","Late-muon-trigger uncertainty",
                 "Result on the trigger uncertainty","Tracking uncertainty",None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,"Result on the tracking uncertainty","Pile-up reweighting uncertainty",None,
                 "Result on the pile-up reweighting uncertainty","Potentially unknown material budget in calos","PDF parametrization uncertainty",None,None,"Overall sum"],
                 var_list,up_list,[None,None,None,None,None,None,None,None,None,None,
@@ -97,13 +97,25 @@ def csv_writer(path,file,Z_end,Z_step,flag):
                 "Result on the basic muon trigger efficiency uncertainty","Limited MC statistics","MET trigger uncertainties",None,"Fraction of events in D triggered only by the MET trigger",
                 "Result on the trigger uncertainty","Tracking uncertainty",None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,"Result on the tracking uncertainty","Pile-up reweighting uncertainty",None,
                 "Result on the pile-up reweighting uncertainty","Potentially unknown material budget in calos","PDF parametrization uncertainty",None,None,"Overall sum"],
-                var_list_older,up_list,[None,None,None,None,None,None,None,None,None,None,
+                var_list_older,up_list,[None,None,None,None,None,None,None,None,None,None,None,None,None,
                 None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,
                 None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None,None]]
             var_list=var_list_older
         for line in header:    
-            writer.writerow(line)
+            writer.writerow(line) 
+            
         Z=2.0           #Initial charge
+        var_list=[None,None,None,"PRIVATE_SYST_LIMITEDDATAMCAGREEMENT_pT",None,"PRIVATE_SYST_LIMITEDDATAMCAGREEMENT_SPIXELDEDX",None,"PRIVATE_SYST_LIMITEDDATAMCAGREEMENT_TRTFHT",
+            None,"PRIVATE_SYST_LIMITEDDATAMCAGREEMENT_NOVERFLOWINGIBLCLUSTERS",None,"PRIVATE_SYST_LIMITEDDATAMCAGREEMENT_STRTDEDX",None,"PRIVATE_SYST_LIMITEDDATAMCAGREEMENT_SMDTDEDX",
+            None,None,"PRIVATE_SYST_BETAINRPCEFFSFCALC",None,"PRIVATE_SYST_SCALINGTIMEINRPCEFFSFCALC",None,None,"MUON_EFF_TrigStatUncertainty", None,"MUON_EFF_TrigSystUncertainty",
+            None,None,None,None,None,None,"PRIVATE_SYST_METTRIGGEREFFICIENCY",None,None,"MUON_ID",None,"MUON_MS",None,"MUON_SCALE",None,"MUON_EFF_RECO_STAT",None,
+            "MUON_EFF_RECO_STAT_LOWPT",None,"MUON_SAGITTA_RESBIAS",None,"MUON_EFF_RECO_SYS",None,"MUON_EFF_RECO_SYS_LOWPT",None,"MUON_SAGITTA_RHO",None,"TRK_BIAS_D0_WM","TRK_BIAS_QOVERP_SAGITTA_WM",
+            "TRK_BIAS_Z0_WM","TRK_EFF_LOOSE_GLOBAL","TRK_EFF_LOOSE_IBL","TRK_EFF_LOOSE_PHYSMODEL","TRK_EFF_LOOSE_PP0","TRK_FAKE_RATE_LOOSE","TRK_FAKE_RATE_LOOSE_ROBUST","TRK_RES_D0_DEAD",
+            "TRK_RES_D0_MEAS","TRK_RES_Z0_MEAS","TRK_RES_Z0_DEAD",None,"PRW_DATASF",None,None,None,None,None,None,None]
+        up_list[65]="up"
+        up_list[66]="down"
+        logger.info("\n")
+        logger.info("<Logging for errors in var_list>\n")
         #print(Export_M_list(file))
         while Z <= Z_end:  #Final charge
             for M in Export_M_list(file):
@@ -112,18 +124,18 @@ def csv_writer(path,file,Z_end,Z_step,flag):
                 else:
                     dif_list=[None,M,None]
                 v=3
-                for var in var_list[3:61+flag]:
+                for var in var_list[3:72+flag]:
                     if var==None and up_list[v]==None:
                         dif_list.append(None)
                     elif var==None and up_list[v]=="down":
                         #dif_list.append(var_list[v-1]+"__"+up_list[v])
                         dif_list.append(ExportDateInBase(file,var_list[v-1], str(M),str(Z),up_list[v], time_like))
                         try:
-                            db_var_list_c.remove(var_list[v-1]) 
+                            db_var_list_c.remove(var_list[v-1])
                         except Exception:
                             pass
                         if db_var_list.count(var_list[v-1])==0:
-                            print(var_list[v-1] + " not found")
+                            logger.error(var_list[v-1] + " not found")
                     else:
                         #dif_list.append(str(var)+"__"+str(up_list[v]))
                         dif_list.append(ExportDateInBase(file,var, str(M),str(Z),up_list[v],time_like))
@@ -132,33 +144,35 @@ def csv_writer(path,file,Z_end,Z_step,flag):
                         except Exception:   
                             pass
                         if db_var_list.count(var)==0:
-                            print(var + " not found")
+                            logger.error(var + " not found")
                     v+=1
-                dif_list +=[None for i in range(9)]
-                
+                #dif_list +=[None for i in range(22)]
                 #strange columns
-                dif_list[26]=0 #Limited MC statistics
-                dif_list[27]=0 #MET trigger uncertainties (Local)
-                dif_list[28]=0 #MET trigger uncertainties (Global)
-                dif_list[29]=0 #Fraction of events in D triggered only by the MET trigger
-                dif_list[62+flag]=0 #Pile-up reweighting uncertainty (up)
-                dif_list[63+flag]=0 #Pile-up reweighting uncertainty (down)
-                dif_list[65+flag]=0 #Potentially unknown material budget in calos
-                dif_list[66+flag]=0 #PDF parametrization uncertainty
+                dif_list[26]=0 #Limited MC statistics ~ysmirnov/public/data2015_2018_analysis/Grigory_uncertainties/getUncertaintiesDueToLimitedMcStats.py
+                dif_list[27]=0 #Inclusive trigger-selection efficiencies [%]		 ~ysmirnov/public/data2015_2018_analysis/Grigory_uncertainties/getInclusiveTriggerEfficiencies.py
+                dif_list[28]=0 #Inclusive trigger-selection efficiencies [%]		
+                dif_list[29]=0 #Inclusive trigger-selection efficiencies [%]		
+                dif_list[31]=0 #ILate-muon-trigger uncertainty		
+                #dif_list[62+flag]=0 #Pile-up reweighting uncertainty (up)
+                #dif_list[63+flag]=0 #Pile-up reweighting uncertainty (down)
+                dif_list[67+flag]=0 #Potentially unknown material budget in calos
+                dif_list[68+flag]=0 #PDF parametrization uncertainty
                 
                 
                 #Equations for items
                 dif_list[15]=  sqrt(sum_err(dif_list[3:15],2)) #Result on the data/MC agreement uncertainty
                 dif_list[20]=  sqrt(sum_err(dif_list[16:20],2)) #Result on the RPC scaling uncertainty
-                dif_list[25]=  sqrt(sum_err(dif_list[21:25],2)) #Result on the basic muon trigger efficiency uncertainty
-                dif_list[30]=  sqrt((dif_list[25]*(1.0-dif_list[29]/100.0))**2+(sqrt(dif_list[27]**2+dif_list[28]**2)*dif_list[29]/100.0)**2) #Result on the trigger uncertainty
-                dif_list[61+flag]=  sqrt(sum_err(dif_list[31:49],2)+sum_err(dif_list[49:61+flag],1)) #Result on the tracking uncertainty
-                dif_list[64+flag]=  sqrt(sum_err(dif_list[62+flag:64+flag],2)) #Result on the pile-up reweighting uncertainty
+                dif_list[25]=  sqrt(sum_err(dif_list[21:25],2)) #Result on the muon-trigger-efficiency uncertainty
+                dif_list[32]=0
+                #dif_list[32]=  sqrt((dif_list[25]*dif_list[27]/(dif_list[27]+dif_list[28]+dif_list[29]))**2+(dif_list[30]*dif_list[28]/(dif_list[27]+dif_list[28]+dif_list[29]))**2+(dif_list[31]*dif_list[29]/(dif_list[27]+dif_list[28]+dif_list[29]))**2) #Result on the trigger uncertainty
+                #(1.0-dif_list[29]/100.0))**2+(sqrt(dif_list[27]**2+dif_list[28]**2)*dif_list[29]/100.0)**2) old
+                dif_list[63+flag]=  sqrt(sum_err(dif_list[33:51],2)+sum_err(dif_list[51:63+flag],1)) #Result on the tracking uncertainty
+                dif_list[66+flag]=  sqrt(sum_err(dif_list[64+flag:66+flag],2)) #Result on the pile-up reweighting uncertainty
                 #Overall sum
-                dif_list[69+flag]=  sqrt(dif_list[15]**2+dif_list[20]**2+dif_list[25]**2+dif_list[26]**2+dif_list[30]**2+dif_list[61+flag]**2+dif_list[64+flag]**2+dif_list[65+flag]**2+dif_list[66+flag]**2)
+                dif_list[71+flag]=  sqrt(dif_list[15]**2+dif_list[20]**2+dif_list[25]**2+dif_list[26]**2+dif_list[32]**2+dif_list[63+flag]**2+dif_list[66+flag]**2+dif_list[67+flag]**2+dif_list[68+flag]**2)
                 
                 #Only important items table
-                Only_res_file.append(dif_list[0:3]+[dif_list[15]]+[dif_list[20]]+[dif_list[25]]+[dif_list[26]]+[dif_list[30]]+[dif_list[61+flag]]+[dif_list[64+flag]]+[dif_list[65+flag]]+[dif_list[66+flag]]+[dif_list[69+flag]])
+                Only_res_file.append(dif_list[0:3]+[dif_list[15]]+[dif_list[20]]+[dif_list[25]]+[dif_list[26]]+[dif_list[32]]+[dif_list[63+flag]]+[dif_list[66+flag]]+[dif_list[67+flag]]+[dif_list[68+flag]]+[dif_list[71+flag]])
                 
                 writer.writerow(dif_list)
             Z=Z+Z_step #cycle step
@@ -166,8 +180,7 @@ def csv_writer(path,file,Z_end,Z_step,flag):
     with open(path.split(".csv")[0]+"_res.csv", "w", newline='') as csv_file:
         writer = csv.writer(csv_file, delimiter=',')
         for line in Only_res_file:    
-            writer.writerow(line)
-            
+            writer.writerow(line)        
     #Only summary items table file creating
     file_sum=open(path.split(".csv")[0]+"_sum_res.txt", 'w+')
     for line in Only_res_file:
@@ -184,11 +197,14 @@ def csv_writer(path,file,Z_end,Z_step,flag):
 
     
     print("list of variations, which exist only in database or only in table`s template: "+str(db_var_list_c))
+    logger.info("list of variations, which exist only in database or only in table`s template: "+str(db_var_list_c))
         
 def sum_err(err_l,k):
     sq_sum=0
     i=0
     while i!=len(err_l):
+        err_l[i]=abs(err_l[i])
+        err_l[i+k-1]=abs(err_l[i+k-1])
         sq_sum+=max(err_l[i:i+k])**2
         i+=k
     return sq_sum
@@ -243,7 +259,7 @@ def ExportDateInBase(file,name, M,Z,pref,time):
         
         time_s="%"+time+"%"
         
-        print(" Name: "+ name+" M: "+ M+" Z: "+ Z+" key: "+str(pref))
+        logger.info(" Name: "+ name+" M: "+ M+" Z: "+ Z+" key: "+str(pref))
         if pref==None:
             pref=""
         sql = "SELECT difference FROM AE_DATA WHERE( charge=? AND variation_name=? AND energy=? AND key=? AND compilation_date LIKE ?) ORDER BY compilation_date"
@@ -537,7 +553,7 @@ if __name__ == "__main__":
         #Start
         
         #Z_end
-        Z_end=5.0
+        Z_end=7.0
         #Z_step
         Z_step=1.0
         #flag
