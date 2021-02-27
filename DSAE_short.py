@@ -265,7 +265,7 @@ def ExportDateInBase(file,name, M,Z,pref,time):
         logger.info(" Name: "+ name+" M: "+ M+" Z: "+ Z+" key: "+str(pref))
         if pref==None:
             pref=""
-        sql = "SELECT difference FROM AE_DATA WHERE( charge=? AND variation_name=? AND energy=? AND key=? AND compilation_date LIKE ?) ORDER BY compilation_date"
+        sql = "SELECT difference FROM AE_DATA WHERE( charge=? AND variation_name=? AND energy=? AND key=? AND compilation_date LIKE ?) ORDER BY compilation_date DESC"
         #sql = "SELECT difference FROM AE_DATA WHERE variation_name=? ORDER BY compilation_date"
         cursor.execute(sql,[(Z),(name),(M),(pref),(time_s)])
         data=cursor.fetchone() # or use fetchone()\etchall()
