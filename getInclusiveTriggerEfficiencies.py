@@ -2,12 +2,12 @@
 
 import ROOT
 fileNames = [
-'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h21m13s244412133ns_M1100_Z2_/fetch/hist-m0500z2-0.root',
-'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h20m34s090468939ns_M500_Z2_/fetch/hist-m0800z2-0.root',
-'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h24m32s752428517ns_M1100_Z4_/fetch/hist-m1100z2-0.root',
-'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h24m08s181783483ns_M1700_Z3_/fetch/hist-m1400z2-0.root',
-'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h26m17s326591283ns_M800_Z6_/fetch/hist-m1700z2-0.root',
-'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h24m55s022739884ns_M2000_Z4_/fetch/hist-m2000z2-0.root'
+'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h21m13s244412133ns_M1100_Z2_/fetch/hist-m1100z2-0.root',
+'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h20m34s090468939ns_M500_Z2_/fetch/hist-m0500z2-0.root',
+'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h24m32s752428517ns_M1100_Z4_/fetch/hist-m1100z4-0.root',
+'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h24m08s181783483ns_M1700_Z3_/fetch/hist-m1700z3-0.root',
+'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h26m17s326591283ns_M800_Z6_/fetch/hist-m0800z6-0.root',
+'/afs/cern.ch/user/y/ysmirnov/public/data2015_2018_analysis/ROOTAnalysisTutorial/run/submitDir_2021-February-27_14h24m55s022739884ns_M2000_Z4_/fetch/hist-m2000z4-0.root'
 ]
 
 
