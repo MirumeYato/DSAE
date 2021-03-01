@@ -11,7 +11,7 @@ fileNames = [
 ]
 
 
-print 'Inclusive trigger-selection efficiencies [%]:\n single-muon trigger\t| MET trigger\t\t| late-muon trigger'
+print ('Inclusive trigger-selection efficiencies [%]:\n single-muon trigger\t| MET trigger\t\t| late-muon trigger')
 
 
 for fileName in fileNames:
@@ -20,10 +20,10 @@ for fileName in fileNames:
 		exit(1)
 	h_cutflow = f.Get("h_cutflow")
 	if not h_cutflow:
-		print 'Error: unable to find the histogram you requested inside the \'', fileName, '\' - check file content and/or histogram name!'
+		print ('Error: unable to find the histogram you requested inside the \'', fileName, '\' - check file content and/or histogram name!')
 		exit(1)
 
-	print h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("#Sigma muon-trigger SFs (MC only)")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100, '\t\t|', h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with MET trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100, '\t|', h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with late-muon trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
+	print (h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("#Sigma muon-trigger SFs (MC only)")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100, '\t\t|', h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with MET trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100, '\t|', h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with late-muon trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100)
 	f.Close()
 print 'Bye!'
 exit(0)
