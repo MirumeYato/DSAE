@@ -391,27 +391,25 @@ def makedb(path,pathdb,namedb,c): #
                 fileName=path+"/"+str(q.group(0))+"/fetch/hist-m0"+str(q.group(3))+"z"+str(q.group(4))+"-0.root"
             else:
                 fileName=path+"/"+str(q.group(0))+"/fetch/hist-m"+str(q.group(3))+"z"+str(q.group(4))+"-0.root"
-            logger.info("all looks norm " +fileName+"\n")
+            logger.info("all looks all right " +fileName+"\n")
             if os.path.exists(fileName): #parsing files
                 f = ROOT.TFile.Open(fileName)
             else:
                 logger.error("In dir <"+path+"/"+str(q.group(0))+"/fetch/> file <hist-m"+str(q.group(3))+"z"+str(q.group(4))+"-0.root> doesn`t exist\n")
                 h4=h4+1
-            logger.info("is it still work?\n")
             
             if ((f or not f.IsZombie()) and q!=0): # add in base
                 h_cutflow = f.Get("h_cutflow")
-                logger.info("now?\n")
                 if not h_cutflow:
                     logger.error('Error: unable to find the histogram you requested inside the \'', fileName, '\' - check file content and/or histogram name!')
                 else:
                     s_trig=h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("#Sigma muon-trigger SFs (MC only)")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
                     m_trig=h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with MET trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
                     l_trig=h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with late-muon trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
+                    logger.info("s_trig " +str(s_trig)+" m_trig " +str(m_trig)+" l_trig " +str(l_trig)+"\n")
                     ImportDateInBase(pathdb+namedb,"single_muon_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),s_trig, "")
                     ImportDateInBase(pathdb+namedb,"MET_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),m_trig, "")
                     ImportDateInBase(pathdb+namedb,"late_muon_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),l_trig, "")
-                    logger.info("wtf?\n")
                     
                 # histogram for the numerator of the TEfficiency object
                     h_SoWOfEventsAfterFinalSelection = ROOT.TH1D("h_SoWOfEventsAfterFinalSelection", ";Bin;Sum of weights of events after final selection", 1, 0, 1)
@@ -429,12 +427,11 @@ def makedb(path,pathdb,namedb,c): #
                     e_finalSelection = ROOT.TEfficiency(h_SoWOfEventsAfterFinalSelection, h_SoWOfEventsInXaods)
                     e_finalSelection.SetStatisticOption(ROOT.TEfficiency.kFNormal) # to suppress a warning from ROOT
                     LMC_stat=e_finalSelection.GetEfficiencyErrorLow(1)/e_finalSelection.GetEfficiency(1)*100
+                    logger.info("LMC_stat " +str(LMC_stat)+"\n")
                     ImportDateInBase(pathdb+namedb,"Limited_MC_statistics",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),LMC_stat, "")
-                    logger.info("sereasly?\n")
             else:
                 logger.info("Unexpected error occured in "+fileName+"\n")
             f.Close()
-            logger.info("kek?\n")
         
     if h2==0:
         print("[ERROR]:Crashed directory")
@@ -562,7 +559,7 @@ if __name__ == "__main__":
             
         
         #MAKE DATA BASE
-        c=False #skip old files flag (impact only on db. Even true will use the newest result in equations)
+        c=True #skip old files flag (impact only on db. Even true will use the newest result in equations)
         makedb(path,pathdb,namedb,c)
         
         
