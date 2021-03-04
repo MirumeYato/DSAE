@@ -387,7 +387,7 @@ def makedb(path,pathdb,namedb,c): #
                 h2=h2-1
                 h3=h3+1
                 continue
-            if(int(q.group(3))<1000):
+            if(str(q.group(3))=="500" or str(q.group(3))=="800"):
                 fileName=path+"/"+str(q.group(0))+"/fetch/hist-m0"+str(q.group(3))+"z"+str(q.group(4))+"-0.root"
             else:
                 fileName=path+"/"+str(q.group(0))+"/fetch/hist-m"+str(q.group(3))+"z"+str(q.group(4))+"-0.root"
