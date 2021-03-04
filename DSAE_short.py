@@ -399,7 +399,7 @@ def makedb(path,pathdb,namedb,c): #
                 h4=h4+1
             logger.info("is it still work?\n")
             
-            if ((f or not f.IsZombie()) and b!=0): # add in base
+            if ((f or not f.IsZombie()) and q!=0): # add in base
                 h_cutflow = f.Get("h_cutflow")
                 logger.info("now?\n")
                 if not h_cutflow:
@@ -432,9 +432,7 @@ def makedb(path,pathdb,namedb,c): #
                     ImportDateInBase(pathdb+namedb,"Limited_MC_statistics",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),LMC_stat, "")
                     logger.info("sereasly?\n")
             else:
-                if b==0:
-                    logger.error("error occured in "+fileName+"\n")
-                    h4=h4+1
+                logger.info("Unexpected error occured in "+fileName+"\n")
             f.Close()
             logger.info("kek?\n")
         
