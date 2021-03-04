@@ -387,19 +387,21 @@ def makedb(path,pathdb,namedb,c): #
                 h2=h2-1
                 h3=h3+1
                 continue
-            if(str(q.group(3))=="500" or str(q.group(3))=="800"):
+            if (str(q.group(3))=="500" or str(q.group(3))=="800"):
                 fileName=path+"/"+str(q.group(0))+"/fetch/hist-m0"+str(q.group(3))+"z"+str(q.group(4))+"-0.root"
             else:
                 fileName=path+"/"+str(q.group(0))+"/fetch/hist-m"+str(q.group(3))+"z"+str(q.group(4))+"-0.root"
+            logger.info("all looks norm " +fileName+"\n")
             if os.path.exists(fileName): #parsing files
                 f = ROOT.TFile.Open(fileName)
             else:
                 logger.error("In dir <"+path+"/"+str(q.group(0))+"/fetch/> file <hist-m"+str(q.group(3))+"z"+str(q.group(4))+"-0.root> doesn`t exist\n")
                 h4=h4+1
-            
+            logger.info("is it still work?\n")
             
             if ((f or not f.IsZombie()) and b!=0): # add in base
                 h_cutflow = f.Get("h_cutflow")
+                logger.info("now?\n")
                 if not h_cutflow:
                     logger.error('Error: unable to find the histogram you requested inside the \'', fileName, '\' - check file content and/or histogram name!')
                 else:
@@ -409,7 +411,7 @@ def makedb(path,pathdb,namedb,c): #
                     ImportDateInBase(pathdb+namedb,"single_muon_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),s_trig, "")
                     ImportDateInBase(pathdb+namedb,"MET_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),m_trig, "")
                     ImportDateInBase(pathdb+namedb,"late_muon_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),l_trig, "")
-            
+                    logger.info("wtf?\n")
                     
                 # histogram for the numerator of the TEfficiency object
                     h_SoWOfEventsAfterFinalSelection = ROOT.TH1D("h_SoWOfEventsAfterFinalSelection", ";Bin;Sum of weights of events after final selection", 1, 0, 1)
@@ -428,11 +430,13 @@ def makedb(path,pathdb,namedb,c): #
                     e_finalSelection.SetStatisticOption(ROOT.TEfficiency.kFNormal) # to suppress a warning from ROOT
                     LMC_stat=e_finalSelection.GetEfficiencyErrorLow(1)/e_finalSelection.GetEfficiency(1)*100
                     ImportDateInBase(pathdb+namedb,"Limited_MC_statistics",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),LMC_stat, "")
+                    logger.info("sereasly?\n")
             else:
                 if b==0:
                     logger.error("error occured in "+fileName+"\n")
                     h4=h4+1
             f.Close()
+            logger.info("kek?\n")
         
     if h2==0:
         print("[ERROR]:Crashed directory")
