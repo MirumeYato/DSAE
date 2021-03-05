@@ -402,8 +402,9 @@ def makedb(path,pathdb,namedb,c): #
             else:
                 logger.error("In dir <"+path+"/"+str(q.group(0))+"/fetch/> file <hist-m"+str(q.group(3))+"z"+str(q.group(4))+"-0.root> doesn`t exist\n")
                 h4=h4+1
+                continue
             
-            if ((f or not f.IsZombie()) and q!=0): # add in base
+            if (f and not f.IsZombie() and q!=0): # add in base
                 h_cutflow = f.Get("h_cutflow")
                 if not h_cutflow:
                     logger.error('Error: unable to find the histogram you requested inside the \'', fileName, '\' - check file content and/or histogram name!')
@@ -434,9 +435,10 @@ def makedb(path,pathdb,namedb,c): #
                     LMC_stat=e_finalSelection.GetEfficiencyErrorLow(1)/e_finalSelection.GetEfficiency(1)*100
                     #logger.info("LMC_stat " +str(LMC_stat)+"\n")
                     ImportDateInBase(pathdb+namedb,"Limited_MC_statistics",str(q.group(1)),str(q.group(2))+"3",int(q.group(3)),int(q.group(4)),LMC_stat, "")
+                    f.Close()
             else:
                 logger.info("Unexpected error occured in "+fileName+"\n")
-            f.Close()
+            
         
     if h2==0:
         print("[ERROR]:Crashed directory")
@@ -553,9 +555,9 @@ if __name__ == "__main__":
         
         #Copy .db
         try:
+            if not os.path.exists(pathdb):  
+                os.makedirs(pathdb)
             if os.path.exists(pathdb+namedb):
-                if not os.path.exists("./Databases"):  
-                    os.makedirs("./Databases")
                 copyfile(pathdb+namedb, "Databases/Copy_"+namedb)
                 logger.info("File "+pathdb+namedb+" copied successfully.")
         except Exception:
