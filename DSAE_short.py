@@ -166,7 +166,10 @@ def csv_writer(path,file,Z_end,Z_step,flag):
                 dif_list[20]=  sqrt(sum_err(dif_list[16:20],2)) #Result on the RPC scaling uncertainty
                 dif_list[25]=  sqrt(sum_err(dif_list[21:25],2)) #Result on the muon-trigger-efficiency uncertainty
                 #dif_list[32]=0
-                dif_list[32]=  sqrt((dif_list[25]*dif_list[27]/(dif_list[27]+dif_list[28]+dif_list[29]))**2+(dif_list[30]*dif_list[28]/(dif_list[27]+dif_list[28]+dif_list[29]))**2+(dif_list[31]*dif_list[29]/(dif_list[27]+dif_list[28]+dif_list[29]))**2) #Result on the trigger uncertainty
+                try:
+                    dif_list[32]=  sqrt((dif_list[25]*dif_list[27]/(dif_list[27]+dif_list[28]+dif_list[29]))**2+(dif_list[30]*dif_list[28]/(dif_list[27]+dif_list[28]+dif_list[29]))**2+(dif_list[31]*dif_list[29]/(dif_list[27]+dif_list[28]+dif_list[29]))**2) #Result on the trigger uncertainty
+                except Exception:
+                    dif_list[32]=0
                 #(1.0-dif_list[29]/100.0))**2+(sqrt(dif_list[27]**2+dif_list[28]**2)*dif_list[29]/100.0)**2) old
                 dif_list[63+flag]=  sqrt(sum_err(dif_list[33:51],2)+sum_err(dif_list[51:63+flag],1)) #Result on the tracking uncertainty
                 dif_list[66+flag]=  sqrt(sum_err(dif_list[64+flag:66+flag],2)) #Result on the pile-up reweighting uncertainty
@@ -391,7 +394,7 @@ def makedb(path,pathdb,namedb,c): #
                 fileName=path+"/"+str(q.group(0))+"/fetch/hist-m0"+str(q.group(3))+"z"+str(q.group(4))+"-0.root"
             else:
                 fileName=path+"/"+str(q.group(0))+"/fetch/hist-m"+str(q.group(3))+"z"+str(q.group(4))+"-0.root"
-            logger.info("all looks all right " +fileName+"\n")
+            #logger.info("all looks all right " +fileName+"\n")
             if os.path.exists(fileName): #parsing files
                 f = ROOT.TFile.Open(fileName)
             else:
@@ -402,14 +405,14 @@ def makedb(path,pathdb,namedb,c): #
                 h_cutflow = f.Get("h_cutflow")
                 if not h_cutflow:
                     logger.error('Error: unable to find the histogram you requested inside the \'', fileName, '\' - check file content and/or histogram name!')
-                else:
+                else:,
                     s_trig=h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("#Sigma muon-trigger SFs (MC only)")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
                     m_trig=h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with MET trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
                     l_trig=h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with late-muon trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
-                    logger.info("s_trig " +str(s_trig)+" m_trig " +str(m_trig)+" l_trig " +str(l_trig)+"\n")
-                    ImportDateInBase(pathdb+namedb,"single_muon_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),s_trig, "")
-                    ImportDateInBase(pathdb+namedb,"MET_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),m_trig, "")
-                    ImportDateInBase(pathdb+namedb,"late_muon_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),l_trig, "")
+                    #logger.info("s_trig " +str(s_trig)+" m_trig " +str(m_trig)+" l_trig " +str(l_trig)+"\n")
+                    ImportDateInBase(pathdb+namedb,"single_muon_trigger",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),float(s_trig), "")
+                    ImportDateInBase(pathdb+namedb,"MET_trigger",str(q.group(1)),str(q.group(2))+"1",int(q.group(3)),int(q.group(4)),m_trig, "")
+                    ImportDateInBase(pathdb+namedb,"late_muon_trigger",str(q.group(1)),str(q.group(2))+"2",int(q.group(3)),int(q.group(4)),l_trig, "")
                     
                 # histogram for the numerator of the TEfficiency object
                     h_SoWOfEventsAfterFinalSelection = ROOT.TH1D("h_SoWOfEventsAfterFinalSelection", ";Bin;Sum of weights of events after final selection", 1, 0, 1)
@@ -427,8 +430,8 @@ def makedb(path,pathdb,namedb,c): #
                     e_finalSelection = ROOT.TEfficiency(h_SoWOfEventsAfterFinalSelection, h_SoWOfEventsInXaods)
                     e_finalSelection.SetStatisticOption(ROOT.TEfficiency.kFNormal) # to suppress a warning from ROOT
                     LMC_stat=e_finalSelection.GetEfficiencyErrorLow(1)/e_finalSelection.GetEfficiency(1)*100
-                    logger.info("LMC_stat " +str(LMC_stat)+"\n")
-                    ImportDateInBase(pathdb+namedb,"Limited_MC_statistics",str(q.group(1)),str(q.group(2)),int(q.group(3)),int(q.group(4)),LMC_stat, "")
+                    #logger.info("LMC_stat " +str(LMC_stat)+"\n")
+                    ImportDateInBase(pathdb+namedb,"Limited_MC_statistics",str(q.group(1)),str(q.group(2))+"3",int(q.group(3)),int(q.group(4)),LMC_stat, "")
             else:
                 logger.info("Unexpected error occured in "+fileName+"\n")
             f.Close()
@@ -559,7 +562,7 @@ if __name__ == "__main__":
             
         
         #MAKE DATA BASE
-        c=True #skip old files flag (impact only on db. Even true will use the newest result in equations)
+        c=False #skip old files flag (impact only on db. Even true will use the newest result in equations)
         makedb(path,pathdb,namedb,c)
         
         
