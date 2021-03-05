@@ -405,7 +405,7 @@ def makedb(path,pathdb,namedb,c): #
                 h_cutflow = f.Get("h_cutflow")
                 if not h_cutflow:
                     logger.error('Error: unable to find the histogram you requested inside the \'', fileName, '\' - check file content and/or histogram name!')
-                else:,
+                else:
                     s_trig=h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("#Sigma muon-trigger SFs (MC only)")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
                     m_trig=h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with MET trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
                     l_trig=h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with late-muon trigger fired")) / h_cutflow.GetBinContent(h_cutflow.GetXaxis().FindFixBin("... with 1 primary vertex")) * 100
