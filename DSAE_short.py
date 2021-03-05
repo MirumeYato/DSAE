@@ -205,6 +205,8 @@ def csv_writer(path,file,Z_end,Z_step,flag):
     
     print("list of variations, which exist only in database or only in table`s template: "+str(db_var_list_c))
     logger.info("list of variations, which exist only in database or only in table`s template: "+str(db_var_list_c))
+    #print("list of variations, which exist only in database or only in table`s template: "+str(db_var_list_c))
+    logger.info("list of variations: "+str(db_var_list))
         
 def sum_err(err_l,k):
     sq_sum=0
