@@ -615,7 +615,7 @@ if __name__ == "__main__":
             
             
         #Start
-        
+        pathdb=(config["Out"]["used_db_with_path"]).replace(os.sep, '/').split(namedb)[0]
         #Z_end
         Z_end=7.0
         #Z_step
